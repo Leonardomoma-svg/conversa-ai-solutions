@@ -26,6 +26,14 @@ const Navbar = () => {
     window.open('https://calendly.com/conversalab', '_blank');
   };
 
+  const handleNavClick = (href: string) => {
+    setIsMobileMenuOpen(false);
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -44,8 +52,10 @@ const Navbar = () => {
               </div>
               <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-cyan rounded-full animate-pulse-glow" />
             </div>
-            <span className="font-display font-bold text-xl text-primary">
-              Conversa<span className="text-secondary">Lab</span>
+            <span className={`font-display font-bold text-xl ${
+              isScrolled ? 'text-primary' : 'text-white'
+            }`}>
+              Conversa<span className={isScrolled ? 'text-secondary' : 'text-cyan'}>Lab</span>
             </span>
           </a>
 
@@ -55,7 +65,15 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-foreground/80 hover:text-primary font-medium transition-colors animated-underline py-1"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(link.href);
+                }}
+                className={`font-medium transition-colors animated-underline py-1 ${
+                  isScrolled 
+                    ? 'text-foreground/80 hover:text-primary' 
+                    : 'text-white/90 hover:text-white'
+                }`}
               >
                 {link.label}
               </a>
@@ -74,7 +92,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 text-foreground"
+            className={`lg:hidden p-2 ${isScrolled ? 'text-foreground' : 'text-white'}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -83,24 +101,29 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 glass mt-2 mx-4 rounded-2xl overflow-hidden animate-scale-in">
-            <div className="p-6 space-y-4">
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg mt-0 mx-0 overflow-hidden animate-scale-in">
+            <div className="p-6 space-y-1">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="block text-foreground/80 hover:text-primary font-medium py-2 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(link.href);
+                  }}
+                  className="block text-foreground hover:text-primary font-medium py-3 px-4 rounded-xl hover:bg-muted transition-colors"
                 >
                   {link.label}
                 </a>
               ))}
-              <Button 
-                onClick={handleCalendlyClick}
-                className="btn-primary w-full mt-4"
-              >
-                Agenda tu Demo
-              </Button>
+              <div className="pt-4">
+                <Button 
+                  onClick={handleCalendlyClick}
+                  className="btn-primary w-full"
+                >
+                  Agenda tu Demo
+                </Button>
+              </div>
             </div>
           </div>
         )}
