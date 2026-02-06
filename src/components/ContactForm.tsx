@@ -15,7 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 
 const serviceOptions = [
-  { id: 'web', label: 'Página Web', icon: Globe },
+  { id: 'web', label: 'Páginas Web', icon: Globe },
   { id: 'chatbot', label: 'Chatbot Inteligente', icon: Bot },
   { id: 'automation', label: 'Automatizaciones', icon: Cog },
   { id: 'assistant', label: 'Asistente Virtual', icon: Headphones },
@@ -117,7 +117,7 @@ const ContactForm = () => {
   };
 
   const handleCalendlyClick = () => {
-    window.open('https://calendly.com/conversalab', '_blank');
+    window.open('https://calendly.com/conversalab25/30min?back=1&month=2026-02', '_blank');
   };
 
   if (isSuccess) {

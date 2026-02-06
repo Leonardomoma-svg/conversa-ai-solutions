@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 
 const CTASection = () => {
   const handleCalendlyClick = () => {
-    window.open('https://calendly.com/conversalab', '_blank');
+    window.open('https://calendly.com/conversalab25/30min?back=1&month=2026-02', '_blank');
   };
 
   return (
@@ -66,7 +66,7 @@ const CTASection = () => {
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm">
               <Users className="w-4 h-4 text-cyan" />
               <span className="text-sm text-white/80">
-                <span className="font-semibold text-white">50+</span> negocios automatizados
+                <span className="font-semibold text-white">3</span> negocios automatizados
               </span>
             </div>
           </div>

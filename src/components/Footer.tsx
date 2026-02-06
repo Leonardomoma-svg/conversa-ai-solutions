@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { 
   Linkedin, 
-  Instagram, 
-  Twitter, 
   Youtube, 
   Mail, 
   MapPin, 
-  Heart,
   ArrowRight,
   Check,
   Loader2
@@ -15,22 +12,42 @@ import { Button } from '@/components/ui/button';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
-  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    
-    setIsSubscribing(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsSubscribing(false);
-    setIsSubscribed(true);
-    setEmail('');
+
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('https://n8n-n8n.cqdooi.easypanel.host/webhook/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsSubscribed(true);
+        setEmail('');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const serviceLinks = [
-    { label: 'Desarrollo Web con IA', href: '#servicios' },
+    { label: 'Páginas Web', href: '#servicios' },
     { label: 'Chatbots Inteligentes', href: '#servicios' },
     { label: 'Automatización de Procesos', href: '#servicios' },
     { label: 'Asistentes Virtuales', href: '#servicios' },
@@ -56,9 +73,7 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Linkedin, href: 'https://linkedin.com/company/conversalab', label: 'LinkedIn' },
-    { icon: Instagram, href: 'https://instagram.com/conversalab', label: 'Instagram' },
-    { icon: Twitter, href: 'https://twitter.com/conversalab', label: 'Twitter' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/leonardo-moreno-472a99332/', label: 'LinkedIn' },
     { icon: Youtube, href: 'https://youtube.com/@conversalab', label: 'YouTube' },
   ];
 
@@ -96,10 +111,10 @@ const Footer = () => {
                       />
                       <Button
                         type="submit"
-                        disabled={isSubscribing}
+                        disabled={isSubmitting}
                         className="px-6 py-3 rounded-xl gradient-cta text-white font-medium hover:opacity-90 transition-opacity"
                       >
-                        {isSubscribing ? (
+                        {isSubmitting ? (
                           <Loader2 className="w-5 h-5 animate-spin" />
                         ) : (
                           <ArrowRight className="w-5 h-5" />
@@ -122,10 +137,11 @@ const Footer = () => {
             {/* Logo */}
             <a href="#" className="flex items-center gap-2 mb-6">
               <div className="relative">
-                <div className="w-10 h-10 rounded-xl gradient-cta flex items-center justify-center">
-                  <span className="text-white font-display font-bold text-lg">C</span>
-                </div>
-                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-cyan rounded-full" />
+                <img
+                  src="/LOGO-removebg-preview.png"
+                  alt="ConversaLab"
+                  className="w-20 h-20 object-contain drop-shadow-[0_6px_18px_rgba(0,0,0,0.45)]"
+                />
               </div>
               <span className="font-display font-bold text-xl text-white">
                 Conversa<span className="text-cyan">Lab</span>
@@ -139,11 +155,11 @@ const Footer = () => {
             {/* Contact info */}
             <div className="space-y-3 mb-6">
               <a 
-                href="mailto:contacto@conversalab.com"
+                href="mailto:conversalab25@gmail.com"
                 className="flex items-center gap-3 text-white/60 hover:text-cyan transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                contacto@conversalab.com
+                conversalab25@gmail.com
               </a>
               <div className="flex items-center gap-3 text-white/60">
                 <MapPin className="w-4 h-4" />
@@ -239,9 +255,7 @@ const Footer = () => {
       <div className="border-t border-white/10">
         <div className="container mx-auto px-4 py-6">
           <p className="text-center text-white/40 text-sm">
-            © 2026 Conversa Lab. Impulsado por IA, hecho con{' '}
-            <Heart className="inline w-4 h-4 text-red-500 fill-red-500" />{' '}
-            en México
+            © 2026 Conversa Lab. Hecho en México
           </p>
         </div>
       </div>

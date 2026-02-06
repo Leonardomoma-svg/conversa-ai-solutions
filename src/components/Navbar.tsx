@@ -18,12 +18,13 @@ const Navbar = () => {
     { href: '#servicios', label: 'Servicios' },
     { href: '#casos', label: 'Casos de Éxito' },
     { href: '#nosotros', label: 'Nosotros' },
-    { href: '#recursos', label: 'Recursos' },
     { href: '#precios', label: 'Precios' },
+    { href: '#recursos', label: 'Recursos' },
+    { href: '#contacto', label: 'Contacto' },
   ];
 
   const handleCalendlyClick = () => {
-    window.open('https://calendly.com/conversalab', '_blank');
+    window.open('https://calendly.com/conversalab25/30min?back=1&month=2026-02', '_blank');
   };
 
   const handleNavClick = (href: string) => {
@@ -34,28 +35,29 @@ const Navbar = () => {
     }
   };
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'glass py-3' 
-          : 'bg-transparent py-5'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass py-1"
     >
-      <div className="container mx-auto px-4">
+      <div className="w-full px-2 sm:px-3">
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2">
+          <a href="#" className="flex items-center gap-2 -ml-1" onClick={handleLogoClick}>
             <div className="relative">
-              <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
-                <span className="text-white font-display font-bold text-lg">C</span>
-              </div>
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-cyan rounded-full animate-pulse-glow" />
+              <img
+                src="/LOGO-removebg-preview.png"
+                alt="ConversaLab"
+                className="w-20 h-20 object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,0.55)]"
+              />
             </div>
-            <span className={`font-display font-bold text-xl ${
-              isScrolled ? 'text-primary' : 'text-white'
-            }`}>
-              Conversa<span className={isScrolled ? 'text-secondary' : 'text-cyan'}>Lab</span>
+            <span className="font-display font-bold text-xl text-primary">
+              Conversa<span className="text-secondary">Lab</span>
             </span>
           </a>
 
@@ -69,11 +71,7 @@ const Navbar = () => {
                   e.preventDefault();
                   handleNavClick(link.href);
                 }}
-                className={`font-medium transition-colors animated-underline py-1 ${
-                  isScrolled 
-                    ? 'text-foreground/80 hover:text-primary' 
-                    : 'text-white/90 hover:text-white'
-                }`}
+                className="font-display font-semibold tracking-wide transition-colors animated-underline py-1 text-foreground/80 hover:text-primary"
               >
                 {link.label}
               </a>
@@ -92,7 +90,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className={`lg:hidden p-2 ${isScrolled ? 'text-foreground' : 'text-white'}`}
+            className="lg:hidden p-2 text-foreground"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

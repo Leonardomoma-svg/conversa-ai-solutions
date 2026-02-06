@@ -1,9 +1,32 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Quote, TrendingUp, Clock } from 'lucide-react';
 
-const placeholderCases = [
+type CaseItem = {
+  id: number;
+  company: string;
+  industry: string;
+  metric: string;
+  metricLabel: string;
+  quote: string;
+  author?: string;
+  avatarSrc?: string;
+  isPlaceholder?: boolean;
+};
+
+const placeholderCases: CaseItem[] = [
   {
     id: 1,
+    company: 'Holy Ghost',
+    industry: 'Servicios',
+    metric: '-70%',
+    metricLabel: 'Tiempo administrando',
+    quote: 'Antes perdía clientes por no contestar. Ahora el asistente hace todo automáticamente. Ya no tengo distracciones y me enfoco en mi trabajo.',
+    author: 'Angelo Paolo',
+    avatarSrc: '/barberpaolo.webp',
+    isPlaceholder: false
+  },
+  {
+    id: 2,
     company: "Próximamente",
     industry: "Retail",
     metric: "300%",
@@ -12,7 +35,7 @@ const placeholderCases = [
     isPlaceholder: true
   },
   {
-    id: 2,
+    id: 3,
     company: "Próximamente",
     industry: "Servicios",
     metric: "85%",
@@ -21,7 +44,7 @@ const placeholderCases = [
     isPlaceholder: true
   },
   {
-    id: 3,
+    id: 4,
     company: "Próximamente",
     industry: "Startups",
     metric: "24/7",
@@ -30,7 +53,7 @@ const placeholderCases = [
     isPlaceholder: true
   },
   {
-    id: 4,
+    id: 5,
     company: "Próximamente",
     industry: "E-commerce",
     metric: "+50%",
@@ -131,11 +154,21 @@ const CaseStudies = () => {
                         </div>
                         
                         {/* Logo placeholder */}
-                        <div className="w-20 h-20 rounded-2xl bg-muted/50 flex items-center justify-center mb-6">
-                          <span className="text-3xl font-display font-bold text-muted-foreground/30">
-                            {caseItem.company[0]}
-                          </span>
-                        </div>
+                        {caseItem.avatarSrc ? (
+                          <div className="w-20 h-20 rounded-2xl overflow-hidden border border-border bg-muted mb-6">
+                            <img
+                              src={caseItem.avatarSrc}
+                              alt={caseItem.author ?? caseItem.company}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-20 h-20 rounded-2xl bg-muted/50 flex items-center justify-center mb-6">
+                            <span className="text-3xl font-display font-bold text-muted-foreground/30">
+                              {caseItem.company[0]}
+                            </span>
+                          </div>
+                        )}
 
                         <h3 className="text-2xl font-display font-bold text-foreground mb-2">
                           {caseItem.company}
@@ -165,10 +198,10 @@ const CaseStudies = () => {
                             <span className="text-sm">Casos de éxito próximamente</span>
                           </div>
                         ) : (
-                          <button className="inline-flex items-center text-primary font-medium hover:text-secondary transition-colors">
-                            Ver caso completo
-                            <TrendingUp className="ml-2 w-4 h-4" />
-                          </button>
+                          <div className="inline-flex items-center gap-2 text-foreground/70">
+                            <TrendingUp className="w-4 h-4 text-primary" />
+                            <span className="text-sm font-medium">— {caseItem.author ?? caseItem.company}</span>
+                          </div>
                         )}
                       </div>
                     </div>

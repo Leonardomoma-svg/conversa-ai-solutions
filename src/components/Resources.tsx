@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Search, Download, ArrowRight, Calendar, Tag, FileText, Video, BookOpen, Folder } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Search, Download, ArrowRight, Calendar, Tag, FileText, Video, BookOpen, Folder, X, Play } from 'lucide-react';
 
 const categories = [
   { id: 'all', label: 'Todos', icon: Folder },
@@ -9,87 +9,77 @@ const categories = [
   { id: 'templates', label: 'Templates', icon: Folder },
 ];
 
-const popularTags = ['IA', 'Automatización', 'Chatbots', 'Productividad', 'CRM', 'WhatsApp'];
+const popularTags = ['IA', 'Automatización', 'Chatbots', 'Productividad', 'CRM', 'WhatsApp', 'Ventas', 'Cotizaciones'];
 
-const resources = [
+type ResourceContentBlock =
+  | { type: 'h3'; text: string }
+  | { type: 'h4'; text: string }
+  | { type: 'p'; text: string };
+
+type ResourceItem = {
+  id: number;
+  type: 'guide' | 'blog' | 'demo' | 'template';
+  category: 'guides' | 'blog' | 'demos' | 'templates';
+  title: string;
+  excerpt: string;
+  date: string;
+  tags: string[];
+  downloadable: boolean;
+  isPlaceholder?: boolean;
+  imageSrc?: string;
+  externalUrl?: string;
+  contentBlocks?: ResourceContentBlock[];
+};
+
+const resources: ResourceItem[] = [
   {
-    id: 1,
-    type: 'guide',
-    category: 'guides',
-    title: "10 Procesos Que Puedes Automatizar Hoy",
-    excerpt: "Descubre los procesos más comunes que las empresas automatizan para ahorrar tiempo y recursos.",
-    date: "2026-01-15",
-    tags: ['Automatización', 'Productividad'],
-    downloadable: true,
-    isPlaceholder: true
-  },
-  {
-    id: 2,
-    type: 'guide',
-    category: 'guides',
-    title: "Guía: Implementando Tu Primer Chatbot",
-    excerpt: "Paso a paso para crear un chatbot efectivo que atienda a tus clientes 24/7.",
-    date: "2026-01-10",
-    tags: ['Chatbots', 'IA'],
-    downloadable: true,
-    isPlaceholder: true
-  },
-  {
-    id: 3,
-    type: 'blog',
-    category: 'blog',
-    title: "El Futuro de la Atención al Cliente con IA",
-    excerpt: "Cómo la inteligencia artificial está transformando la manera en que las empresas atienden a sus clientes.",
-    date: "2026-01-08",
-    tags: ['IA', 'CRM'],
-    downloadable: false,
-    isPlaceholder: true
-  },
-  {
-    id: 4,
+    id: 7,
     type: 'demo',
     category: 'demos',
-    title: "Demo: Chatbot para WhatsApp Business",
-    excerpt: "Ve en acción cómo un chatbot puede manejar consultas, citas y ventas automáticamente.",
-    date: "2026-01-05",
-    tags: ['Chatbots', 'WhatsApp'],
+    title: "Convierte cotizaciones en ventas en 5 minutos",
+    excerpt: "Mira cómo automatizar cotizaciones 24/7 desde un formulario web hasta WhatsApp, con precios dinámicos y registro en Google Sheets.",
+    date: "2026-02-05",
+    tags: ['Automatización', 'WhatsApp', 'Ventas', 'Cotizaciones'],
     downloadable: false,
-    isPlaceholder: true
-  },
-  {
-    id: 5,
-    type: 'template',
-    category: 'templates',
-    title: "Template: Flujo de Onboarding Automatizado",
-    excerpt: "Plantilla lista para usar que automatiza el proceso de bienvenida de nuevos clientes.",
-    date: "2026-01-03",
-    tags: ['Automatización', 'CRM'],
-    downloadable: true,
-    isPlaceholder: true
-  },
-  {
-    id: 6,
-    type: 'blog',
-    category: 'blog',
-    title: "5 Métricas Clave Para Medir Tu ROI en Automatización",
-    excerpt: "Aprende a medir el impacto real de tus inversiones en automatización e IA.",
-    date: "2026-01-01",
-    tags: ['Productividad', 'IA'],
-    downloadable: false,
-    isPlaceholder: true
+    isPlaceholder: false,
+    imageSrc: "/thumb-fletes.png",
+    externalUrl: "https://youtu.be/vAWa_T2MMIk",
+    contentBlocks: [
+      { type: 'h3', text: 'AUTOMATIZACIÓN DE COTIZACIONES' },
+      { type: 'h4', text: '¿Por qué tu negocio necesita responder cotizaciones en 5 minutos?' },
+      {
+        type: 'p',
+        text: 'En el mundo de los fletes y mudanzas, la velocidad marca la diferencia entre cerrar una venta o perderla ante la competencia. Este video te muestra cómo construir un sistema de cotizaciones automáticas que funciona 24/7: desde que un cliente llena un formulario en tu página web hasta que recibe una cotización personalizada por WhatsApp en solo 5 minutos. Sin contratar personal adicional, sin errores de cálculo, y sin importar si es fin de semana o media noche.'
+      },
+      { type: 'h4', text: 'Lo que aprenderás en este tutorial completo' },
+      {
+        type: 'p',
+        text: 'Te guío paso a paso en la creación de un flujo automatizado usando n8n, WhatsApp y Google Sheets. Verás cómo calcular precios dinámicos basados en peso, volumen, tipo de carga, urgencia y distancia; cómo formatear mensajes profesionales para WhatsApp; y cómo guardar cada cotización en una base de datos para análisis posterior. Todo el sistema está diseñado para ser escalable: puede manejar desde 10 hasta 1,000 cotizaciones diarias sin ningún problema.'
+      },
+      { type: 'h4', text: 'El valor real de automatizar tu proceso de ventas' },
+      {
+        type: 'p',
+        text: 'Esta automatización no solo ahorra tiempo operativo, sino que aumenta significativamente tu tasa de conversión al ser el primero en responder. Los clientes aprecian la inmediatez y profesionalismo de recibir una cotización detallada casi al instante. Además, al guardar todo en Google Sheets, podrás identificar patrones: qué rutas son más populares, cuál es tu ticket promedio, y qué días recibes más solicitudes. Esta información es oro para optimizar tu negocio y tomar decisiones basadas en datos reales.'
+      }
+    ]
   }
 ];
+
+const checklistDocUrl = '/10procesos.docx';
 
 const Resources = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeResource, setActiveResource] = useState<ResourceItem | null>(null);
 
-  const filteredResources = resources.filter((resource) => {
-    const matchesCategory = selectedCategory === 'all' || resource.category === selectedCategory;
-    const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         resource.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredResources = useMemo(() => {
+    return resources.filter((resource) => {
+      const matchesCategory = selectedCategory === 'all' || resource.category === selectedCategory;
+      const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           resource.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [selectedCategory, searchQuery]);
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -166,6 +156,8 @@ const Resources = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {filteredResources.map((resource) => {
             const CategoryIcon = getCategoryIcon(resource.category);
+            const hasReadMore = Boolean(resource.contentBlocks && resource.contentBlocks.length > 0);
+            const isCtaDisabled = Boolean(resource.isPlaceholder) || (resource.downloadable && !resource.externalUrl);
             
             return (
               <article
@@ -175,14 +167,55 @@ const Resources = () => {
                 }`}
               >
                 {/* Thumbnail placeholder */}
-                <div className="aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center relative">
-                  <CategoryIcon className="w-12 h-12 text-primary/40" />
-                  {resource.downloadable && (
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-accent text-white text-xs font-medium">
-                      Descargable
+                {resource.externalUrl ? (
+                  <a
+                    href={resource.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block aspect-video relative overflow-hidden"
+                    aria-label={resource.title}
+                  >
+                    {resource.imageSrc ? (
+                      <img
+                        src={resource.imageSrc}
+                        alt={resource.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+                        <CategoryIcon className="w-12 h-12 text-primary/40" />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                        <Play className="w-6 h-6 text-primary ml-0.5" />
+                      </div>
                     </div>
-                  )}
-                </div>
+                    {resource.downloadable && (
+                      <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-accent text-white text-xs font-medium">
+                        Descargable
+                      </div>
+                    )}
+                  </a>
+                ) : (
+                  <div className="aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center relative">
+                    {resource.imageSrc ? (
+                      <img
+                        src={resource.imageSrc}
+                        alt={resource.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <CategoryIcon className="w-12 h-12 text-primary/40" />
+                    )}
+                    {resource.downloadable && (
+                      <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-accent text-white text-xs font-medium">
+                        Descargable
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <div className="p-6">
                   {/* Category tag */}
@@ -225,7 +258,28 @@ const Resources = () => {
                   </div>
 
                   {/* CTA */}
-                  <button className="inline-flex items-center text-primary font-medium text-sm group-hover:text-secondary transition-colors">
+                  <button
+                    disabled={isCtaDisabled}
+                    className={`inline-flex items-center font-medium text-sm transition-colors ${
+                      isCtaDisabled
+                        ? 'text-muted-foreground/60 cursor-not-allowed'
+                        : 'text-primary group-hover:text-secondary'
+                    }`}
+                    onClick={() => {
+                      if (isCtaDisabled) return;
+                      if (resource.downloadable && resource.externalUrl) {
+                        window.open(resource.externalUrl, '_blank');
+                        return;
+                      }
+
+                      if (hasReadMore) {
+                        setActiveResource(resource);
+                        return;
+                      }
+
+                      if (resource.externalUrl) window.open(resource.externalUrl, '_blank');
+                    }}
+                  >
                     {resource.downloadable ? (
                       <>
                         <Download className="mr-2 w-4 h-4" />
@@ -244,6 +298,106 @@ const Resources = () => {
           })}
         </div>
 
+        {activeResource && (
+          <div
+            className="fixed inset-0 z-[60]"
+            role="dialog"
+            aria-modal="true"
+            aria-label={activeResource.title}
+          >
+            <button
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setActiveResource(null)}
+            />
+            <div className="relative mx-auto mt-24 w-[min(920px,calc(100%-2rem))] rounded-3xl bg-card border border-border shadow-2xl overflow-hidden">
+              <div className="flex items-start justify-between gap-4 p-6 border-b border-border">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 mb-3">
+                    <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium capitalize">
+                      {activeResource.category === 'guides' ? 'Guía' :
+                       activeResource.category === 'blog' ? 'Blog' :
+                       activeResource.category === 'demos' ? 'Demo' : 'Template'}
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Calendar className="w-3 h-3" />
+                      {new Date(activeResource.date).toLocaleDateString('es-MX', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-display font-bold text-foreground">
+                    {activeResource.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {activeResource.excerpt}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {activeResource.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center gap-1 text-xs text-muted-foreground"
+                      >
+                        <Tag className="w-3 h-3" />
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  className="p-2 rounded-xl hover:bg-muted transition-colors text-muted-foreground"
+                  onClick={() => setActiveResource(null)}
+                  aria-label="Cerrar"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="p-6 max-h-[70vh] overflow-auto">
+                {activeResource.externalUrl && (
+                  <a
+                    href={activeResource.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-colors"
+                  >
+                    Ver video en YouTube
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                )}
+
+                <div className="mt-6 space-y-4">
+                  {activeResource.contentBlocks?.map((block, idx) => {
+                    if (block.type === 'h3') {
+                      return (
+                        <h4 key={idx} className="text-xl md:text-2xl font-display font-bold text-foreground">
+                          {block.text}
+                        </h4>
+                      );
+                    }
+
+                    if (block.type === 'h4') {
+                      return (
+                        <h5 key={idx} className="text-lg font-display font-bold text-foreground">
+                          {block.text}
+                        </h5>
+                      );
+                    }
+
+                    return (
+                      <p key={idx} className="text-muted-foreground leading-relaxed">
+                        {block.text}
+                      </p>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Featured downloads */}
         <div className="mt-16 grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           <div className="glass rounded-2xl p-6 flex items-center gap-6">
@@ -258,26 +412,13 @@ const Resources = () => {
                 Descarga gratis y empieza a automatizar hoy
               </p>
             </div>
-            <button className="px-4 py-2 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-colors">
+            <a
+              href={checklistDocUrl}
+              download
+              className="px-4 py-2 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-colors"
+            >
               Descargar
-            </button>
-          </div>
-
-          <div className="glass rounded-2xl p-6 flex items-center gap-6">
-            <div className="w-16 h-16 rounded-xl gradient-cta flex items-center justify-center flex-shrink-0">
-              <BookOpen className="w-7 h-7 text-white" />
-            </div>
-            <div className="flex-1">
-              <h4 className="font-display font-bold text-foreground mb-1">
-                Guía: Implementando Tu Primer Chatbot
-              </h4>
-              <p className="text-sm text-muted-foreground">
-                Paso a paso para empezar con IA
-              </p>
-            </div>
-            <button className="px-4 py-2 rounded-xl bg-secondary text-white font-medium hover:bg-secondary/90 transition-colors">
-              Descargar
-            </button>
+            </a>
           </div>
         </div>
       </div>

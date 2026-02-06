@@ -16,9 +16,9 @@ const services = [
   {
     id: 1,
     icon: Laptop,
-    title: "Desarrollo Web con IA",
-    description: "Sitios web modernos optimizados con inteligencia artificial",
-    fullDescription: "Creamos sitios web que no solo lucen increíbles, sino que están potenciados con IA para ofrecer experiencias personalizadas a cada visitante.",
+    title: "Páginas Web",
+    description: "Sitios web modernos optimizados para convertir",
+    fullDescription: "Creamos sitios web que no solo lucen increíbles, sino que ofrecen experiencias personalizadas a cada visitante.",
     benefits: [
       "Diseño responsivo y moderno",
       "Optimización SEO automática",

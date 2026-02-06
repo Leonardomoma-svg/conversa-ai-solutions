@@ -57,7 +57,7 @@ const plans = [
 
 const Pricing = () => {
   const handleCalendlyClick = () => {
-    window.open('https://calendly.com/conversalab', '_blank');
+    window.open('https://calendly.com/conversalab25/30min?back=1&month=2026-02', '_blank');
   };
 
   return (
@@ -69,7 +69,7 @@ const Pricing = () => {
         {/* Section header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block px-4 py-2 rounded-full bg-accent/10 text-accent font-medium text-sm mb-4">
-            Inversión
+            Paquetes
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
             Inversión Personalizada{' '}

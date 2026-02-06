@@ -38,7 +38,7 @@ const Hero = () => {
   }, [displayText, isDeleting, currentTextIndex]);
 
   const handleCalendlyClick = () => {
-    window.open('https://calendly.com/conversalab', '_blank');
+    window.open('https://calendly.com/conversalab25/30min?back=1&month=2026-02', '_blank');
   };
 
   return (
@@ -84,12 +84,6 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left content */}
           <div className="text-white space-y-8">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 animate-fade-up">
-              <Sparkles className="w-4 h-4 text-cyan" />
-              <span className="text-sm font-medium">Potenciado por Inteligencia Artificial</span>
-            </div>
-
             {/* Main heading */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight animate-fade-up" style={{ animationDelay: '0.1s' }}>
               Recupera Tu Tiempo,{' '}
@@ -117,7 +111,7 @@ const Hero = () => {
               </Button>
               <Button 
                 variant="outline"
-                className="border-2 border-white/30 text-white hover:bg-white/10 font-semibold px-8 py-6 text-lg rounded-xl backdrop-blur-sm"
+                className="border-2 border-white/40 text-white bg-white/10 hover:bg-white/20 font-semibold px-8 py-6 text-lg rounded-xl backdrop-blur-sm shadow-lg shadow-black/20"
                 onClick={() => document.getElementById('casos')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <Play className="mr-2 w-5 h-5" />
@@ -128,7 +122,14 @@ const Hero = () => {
             {/* Social proof */}
             <div className="flex items-center gap-4 pt-4 animate-fade-up" style={{ animationDelay: '0.4s' }}>
               <div className="flex -space-x-3">
-                {[1, 2, 3, 4].map((i) => (
+                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 backdrop-blur-sm bg-white/10">
+                  <img
+                    src="/barberpaolo.webp"
+                    alt="Cliente"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {[1, 2].map((i) => (
                   <div
                     key={i}
                     className="w-10 h-10 rounded-full bg-gradient-to-br from-white/30 to-white/10 border-2 border-white/20 backdrop-blur-sm"
@@ -136,7 +137,7 @@ const Hero = () => {
                 ))}
               </div>
               <p className="text-white/80 text-sm">
-                <span className="font-semibold text-white">50+</span> negocios automatizando con nosotros
+                <span className="font-semibold text-white">3</span> negocios automatizando con nosotros
               </p>
             </div>
           </div>

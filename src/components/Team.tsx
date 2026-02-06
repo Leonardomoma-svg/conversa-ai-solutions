@@ -46,11 +46,13 @@ const Team = () => {
               </div>
 
               <div className="relative">
-                {/* Avatar placeholder */}
-                <div className="w-32 h-32 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center border-2 border-primary/20">
-                  <div className="w-24 h-24 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                    <span className="text-4xl font-display font-bold text-white">LM</span>
-                  </div>
+                {/* Profile image */}
+                <div className="w-48 h-48 mx-auto mb-6 rounded-2xl overflow-hidden border-2 border-primary/20 bg-muted">
+                  <img
+                    src="/IMG_2074.JPG"
+                    alt="Perfil"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 {/* Name & Title */}
@@ -92,7 +94,7 @@ const Team = () => {
 
                 {/* LinkedIn button */}
                 <a
-                  href="https://linkedin.com/in/leonardomoreno"
+                  href="https://www.linkedin.com/in/leonardo-moreno-472a99332/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#0077B5] text-white font-medium hover:bg-[#006297] transition-colors"

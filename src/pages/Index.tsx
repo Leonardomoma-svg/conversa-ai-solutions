@@ -4,8 +4,8 @@ import Services from '@/components/Services';
 import CaseStudies from '@/components/CaseStudies';
 import Methodology from '@/components/Methodology';
 import Team from '@/components/Team';
-import Resources from '@/components/Resources';
 import Pricing from '@/components/Pricing';
+import Resources from '@/components/Resources';
 import ContactForm from '@/components/ContactForm';
 import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer';
@@ -19,8 +19,8 @@ const Index = () => {
       <CaseStudies />
       <Methodology />
       <Team />
-      <Resources />
       <Pricing />
+      <Resources />
       <ContactForm />
       <CTASection />
       <Footer />
