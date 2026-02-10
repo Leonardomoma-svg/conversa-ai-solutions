@@ -58,7 +58,7 @@ const ContactForm = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const webhookUrl = 'https://n8n-n8n.cqdooi.easypanel.host/webhook/reccotiz';
+  const webhookUrl = 'https://n8n-n8n.cqdooi.easypanel.host/webhook-test/reccotiz';
 
   const toggleService = (serviceId: string) => {
     setFormData(prev => ({
