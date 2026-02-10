@@ -42,6 +42,7 @@ const ContactForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
     services: [] as string[],
@@ -56,6 +57,8 @@ const ContactForm = () => {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const webhookUrl = 'https://n8n-n8n.cqdooi.easypanel.host/webhook/reccotiz';
 
   const toggleService = (serviceId: string) => {
     setFormData(prev => ({
@@ -108,12 +111,49 @@ const ContactForm = () => {
     if (!validateStep(3)) return;
 
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setIsSuccess(true);
+
+    setSubmitError(null);
+
+    try {
+      const selectedServiceLabels = serviceOptions
+        .filter((s) => formData.services.includes(s.id))
+        .map((s) => s.label);
+
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          services: formData.services,
+          servicesLabels: selectedServiceLabels,
+          submittedAt: new Date().toISOString(),
+          source: 'contact_form',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Webhook request failed');
+      }
+
+      let data: unknown = null;
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
+
+      if (typeof data === 'object' && data !== null && 'success' in data && (data as { success?: boolean }).success === false) {
+        throw new Error('Webhook returned success=false');
+      }
+
+      setIsSuccess(true);
+    } catch {
+      setSubmitError('No se pudo enviar tu solicitud. Intenta de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCalendlyClick = () => {
@@ -457,6 +497,10 @@ const ContactForm = () => {
                   </Button>
                 )}
               </div>
+
+              {!!submitError && currentStep === 3 && (
+                <div className="mt-4 text-sm text-destructive">{submitError}</div>
+              )}
             </form>
           </div>
         </div>
