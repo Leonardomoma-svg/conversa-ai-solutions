@@ -103,6 +103,7 @@ const ChatMock = () => {
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [draft, setDraft] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const messagesRef = useRef<HTMLDivElement | null>(null);
 
   const activateInteractive = () => {
     if (!isInteractive) {
@@ -159,6 +160,12 @@ const ChatMock = () => {
     };
   }, [isInteractive]);
 
+  useEffect(() => {
+    const el = messagesRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+  }, [messages, isBotTyping, visibleCount, scenarioIndex, isInteractive]);
+
   const handleSend = async () => {
     const text = draft.trim();
     if (!text) return;
@@ -203,7 +210,7 @@ const ChatMock = () => {
 
   return (
     <div className="relative w-[420px] max-w-full">
-      <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-white/[0.06] backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.45)]">
+      <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-white/[0.06] backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.45)] flex flex-col h-[560px] max-h-[75vh]">
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#2563EB]/60 to-[#06B6D4]/40 flex items-center justify-center">
@@ -221,7 +228,7 @@ const ChatMock = () => {
           </div>
         </div>
 
-        <div className="px-5 py-5 space-y-3">
+        <div ref={messagesRef} className="px-5 py-5 space-y-3 flex-1 overflow-y-auto">
           {(isInteractive ? messages : (chatScenarios[scenarioIndex] ?? chatScenarios[0]).slice(0, visibleCount)).map((m, idx) => (
             <div
               key={idx}
@@ -248,7 +255,7 @@ const ChatMock = () => {
           )}
         </div>
 
-        <div className="px-5 pb-5">
+        <div className="px-5 pb-5 shrink-0">
           <div className="flex flex-col gap-3 mb-3">
             <button
               type="button"
