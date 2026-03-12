@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { 
   Laptop, 
   Bot, 
@@ -101,10 +101,48 @@ const services = [
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState<typeof services[0] | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [visibleIds, setVisibleIds] = useState<Set<number>>(() => new Set());
+
+  const ids = useMemo(() => services.map((s) => s.id), []);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = Number((entry.target as HTMLElement).dataset.serviceId);
+          if (!Number.isFinite(id)) return;
+          setVisibleIds((prev) => {
+            if (prev.has(id)) return prev;
+            const next = new Set(prev);
+            next.add(id);
+            return next;
+          });
+        });
+      },
+      { threshold: 0.18, rootMargin: '0px 0px -10% 0px' }
+    );
+
+    cardRefs.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [ids]);
 
   return (
-    <section id="servicios" className="section-padding pattern-dots relative">
-      <div className="container mx-auto px-4">
+    <section
+      id="servicios"
+      ref={sectionRef}
+      className="section-padding relative overflow-hidden bg-background"
+    >
+      <div className="absolute inset-0 pattern-dots opacity-40" />
+      <div className="absolute inset-0 opacity-[0.08] gradient-hero" />
+      <div className="container mx-auto px-4 relative">
         {/* Section header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-4">
@@ -120,11 +158,20 @@ const Services = () => {
         </div>
 
         {/* Services grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
-          {services.map((service) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service, idx) => (
             <div
               key={service.id}
-              className="group relative bg-card rounded-2xl p-8 border border-border card-hover cursor-pointer"
+              ref={(el) => {
+                cardRefs.current[idx] = el;
+              }}
+              data-service-id={service.id}
+              className={`group relative rounded-2xl p-8 cursor-pointer transition-all duration-500 will-change-transform glass hover:shadow-[0_22px_70px_rgba(37,99,235,0.14)] ${
+                visibleIds.has(service.id)
+                  ? 'opacity-100 translate-y-0'
+                  : 'opacity-0 translate-y-6'
+              }`}
+              style={{ transitionDelay: `${idx * 90}ms` }}
               onClick={() => setSelectedService(service)}
             >
               {/* Icon */}
@@ -158,7 +205,7 @@ const Services = () => {
       {/* Modal */}
       {selectedService && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-          <div className="bg-card rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
+          <div className="glass rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
             <div className="p-8">
               {/* Header */}
               <div className="flex items-start justify-between mb-6">

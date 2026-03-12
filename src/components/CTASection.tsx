@@ -2,6 +2,8 @@ import { ArrowRight, Calendar, Clock, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const CTASection = () => {
+  const showSocialProof = false;
+
   const handleCalendlyClick = () => {
     window.open('https://calendly.com/conversalab25/30min?back=1&month=2026-02', '_blank');
   };
@@ -9,7 +11,9 @@ const CTASection = () => {
   return (
     <section className="relative py-24 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 gradient-hero" />
+      <div className="absolute inset-0 bg-background" />
+      <div className="absolute inset-0 opacity-[0.10] gradient-hero" />
+      <div className="absolute inset-0 pattern-dots opacity-40" />
       
       {/* Pattern overlay */}
       <div className="absolute inset-0 opacity-20">
@@ -37,24 +41,24 @@ const CTASection = () => {
       </div>
 
       <div className="container mx-auto px-4 relative">
-        <div className="max-w-4xl mx-auto text-center text-white">
+        <div className="max-w-4xl mx-auto text-center text-foreground">
           {/* Heading */}
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 animate-fade-up">
             ¿Listo Para{' '}
-            <span className="bg-gradient-to-r from-cyan via-white to-blue-bright bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Recuperar Tu Tiempo
             </span>?
           </h2>
 
           {/* Subheading */}
-          <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: '0.1s' }}>
             Agenda una demo de 30 minutos y descubre cómo la IA puede transformar tu negocio
           </p>
 
           {/* CTA Button */}
           <Button
             onClick={handleCalendlyClick}
-            className="bg-white text-primary hover:bg-white/90 font-semibold px-10 py-7 text-lg rounded-xl transition-all hover:scale-105 hover:shadow-2xl animate-fade-up"
+            className="relative btn-primary btn-shimmer font-semibold px-10 py-7 text-lg rounded-xl transition-all hover:scale-105 hover:shadow-2xl animate-fade-up"
             style={{ animationDelay: '0.2s' }}
           >
             Agendar Demo Ahora
@@ -62,14 +66,16 @@ const CTASection = () => {
           </Button>
 
           {/* Social proof */}
-          <div className="flex items-center justify-center gap-4 mt-10 animate-fade-up" style={{ animationDelay: '0.3s' }}>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm">
-              <Users className="w-4 h-4 text-cyan" />
-              <span className="text-sm text-white/80">
-                <span className="font-semibold text-white">3</span> negocios automatizados
-              </span>
+          {showSocialProof && (
+            <div className="flex items-center justify-center gap-4 mt-10 animate-fade-up" style={{ animationDelay: '0.3s' }}>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm">
+                <Users className="w-4 h-4 text-cyan" />
+                <span className="text-sm text-white/80">
+                  <span className="font-semibold text-white">3</span> negocios automatizados
+                </span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

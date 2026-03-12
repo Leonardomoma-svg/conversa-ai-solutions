@@ -78,12 +78,13 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-foreground text-white">
+    <footer className="bg-[#0C1220] text-white">
+      <div className="h-px w-full separator-gradient" />
       {/* Newsletter section */}
       <div className="border-b border-white/10">
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto">
-            <div className="glass-dark rounded-3xl p-8 md:p-12">
+            <div className="rounded-3xl p-8 md:p-12 bg-white/[0.08] backdrop-blur-xl border border-white/10">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
                   <h3 className="text-2xl font-display font-bold mb-2">
@@ -112,7 +113,7 @@ const Footer = () => {
                       <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="px-6 py-3 rounded-xl gradient-cta text-white font-medium hover:opacity-90 transition-opacity"
+                        className="relative px-6 py-3 rounded-xl gradient-cta text-white font-medium hover:opacity-90 transition-opacity btn-shimmer"
                       >
                         {isSubmitting ? (
                           <Loader2 className="w-5 h-5 animate-spin" />

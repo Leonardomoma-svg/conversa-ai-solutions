@@ -20,8 +20,10 @@ const pillars = [
 
 const Team = () => {
   return (
-    <section id="nosotros" className="section-padding section-alt relative overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section id="nosotros" className="section-padding relative overflow-hidden bg-background">
+      <div className="absolute inset-0 pattern-dots opacity-40" />
+      <div className="absolute inset-0 opacity-[0.08] gradient-hero" />
+      <div className="container mx-auto px-4 relative">
         {/* Section header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-4">
@@ -47,12 +49,15 @@ const Team = () => {
 
               <div className="relative">
                 {/* Profile image */}
-                <div className="w-48 h-48 mx-auto mb-6 rounded-2xl overflow-hidden border-2 border-primary/20 bg-muted">
-                  <img
-                    src="/IMG_2074.JPG"
-                    alt="Perfil"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="relative w-48 h-48 mx-auto mb-6 rounded-2xl">
+                  <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-r from-primary via-secondary to-accent spin-slow opacity-70" />
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden bg-muted border border-white/30">
+                    <img
+                      src="/IMG_2074.JPG"
+                      alt="Perfil"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
 
                 {/* Name & Title */}
@@ -121,8 +126,11 @@ const Team = () => {
               {pillars.map((pillar, index) => (
                 <div
                   key={index}
-                  className="group p-6 bg-card rounded-2xl border border-border hover:border-primary/30 transition-all card-hover"
+                  className="group relative p-6 glass rounded-2xl border border-border hover:border-primary/30 transition-all"
                 >
+                  <div className="pointer-events-none absolute -top-6 -right-2 text-[120px] font-display font-extrabold text-foreground/5 leading-none select-none">
+                    {String(index + 1).padStart(2, '0')}
+                  </div>
                   <div className="flex gap-5">
                     <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                       <pillar.icon className="w-6 h-6 text-primary" />

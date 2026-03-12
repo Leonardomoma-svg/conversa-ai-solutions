@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Check, ArrowRight, Sparkles, Crown, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -60,10 +61,47 @@ const Pricing = () => {
     window.open('https://calendly.com/conversalab25/30min?back=1&month=2026-02', '_blank');
   };
 
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [visibleIds, setVisibleIds] = useState<Set<string>>(() => new Set());
+  const ids = useMemo(() => plans.map((p) => p.id), []);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = String((entry.target as HTMLElement).dataset.planId || '');
+          if (!id) return;
+          setVisibleIds((prev) => {
+            if (prev.has(id)) return prev;
+            const next = new Set(prev);
+            next.add(id);
+            return next;
+          });
+        });
+      },
+      { threshold: 0.18, rootMargin: '0px 0px -10% 0px' }
+    );
+
+    cardRefs.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [ids]);
+
   return (
-    <section id="precios" className="section-padding section-alt relative overflow-hidden">
+    <section
+      id="precios"
+      ref={sectionRef}
+      className="section-padding relative overflow-hidden bg-background"
+    >
       {/* Background decoration */}
-      <div className="absolute inset-0 pattern-dots opacity-30" />
+      <div className="absolute inset-0 pattern-dots opacity-40" />
+      <div className="absolute inset-0 opacity-[0.08] gradient-hero" />
       
       <div className="container mx-auto px-4 relative">
         {/* Section header */}
@@ -82,15 +120,36 @@ const Pricing = () => {
 
         {/* Pricing cards */}
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {plans.map((plan) => (
+          {plans.map((plan, idx) => (
             <div
               key={plan.id}
-              className={`relative group bg-card rounded-3xl border overflow-hidden transition-all duration-300 ${
+              ref={(el) => {
+                cardRefs.current[idx] = el;
+              }}
+              data-plan-id={plan.id}
+              className={`relative group rounded-3xl overflow-hidden transition-all duration-500 will-change-transform ${
+                visibleIds.has(plan.id)
+                  ? 'opacity-100 translate-y-0'
+                  : 'opacity-0 translate-y-6'
+              } ${
                 plan.popular
-                  ? 'border-primary/30 shadow-lg scale-105 md:scale-110 z-10'
-                  : 'border-border hover:border-primary/20'
+                  ? 'scale-105 md:scale-110 z-10'
+                  : ''
               }`}
+              style={{ transitionDelay: `${idx * 110}ms` }}
             >
+              {/* Premium border for popular */}
+              {plan.popular && (
+                <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-r from-[#2563EB] via-[#06B6D4] to-[#2563EB] opacity-80" />
+              )}
+
+              <div
+                className={`relative rounded-3xl border bg-card/80 backdrop-blur-xl ${
+                  plan.popular
+                    ? 'border-transparent shadow-[0_18px_70px_rgba(37,99,235,0.18)]'
+                    : 'border-border hover:border-primary/20 shadow-md'
+                }`}
+              >
               {/* Popular badge */}
               {plan.popular && (
                 <div className="absolute top-0 left-0 right-0 gradient-primary py-2 text-center">
@@ -168,6 +227,7 @@ const Pricing = () => {
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5" />
                 </div>
               )}
+              </div>
             </div>
           ))}
         </div>

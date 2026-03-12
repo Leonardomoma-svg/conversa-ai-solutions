@@ -92,8 +92,10 @@ const Resources = () => {
   };
 
   return (
-    <section id="recursos" className="section-padding relative">
-      <div className="container mx-auto px-4">
+    <section id="recursos" className="section-padding relative overflow-hidden bg-background">
+      <div className="absolute inset-0 pattern-dots opacity-40" />
+      <div className="absolute inset-0 opacity-[0.08] gradient-hero" />
+      <div className="container mx-auto px-4 relative">
         {/* Section header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="inline-block px-4 py-2 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-4">

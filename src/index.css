@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -105,11 +105,12 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    line-height: 1.7;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   }
 }
 
@@ -283,6 +284,60 @@
     }
   }
 
+  @keyframes aurora-shift {
+    0%, 100% {
+      transform: translate3d(-6%, -4%, 0) scale(1);
+      opacity: 0.55;
+    }
+    50% {
+      transform: translate3d(6%, 4%, 0) scale(1.06);
+      opacity: 0.75;
+    }
+  }
+
+  @keyframes aurora-shift-rev {
+    0%, 100% {
+      transform: translate3d(7%, -5%, 0) scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translate3d(-7%, 5%, 0) scale(1.07);
+      opacity: 0.78;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-120%);
+      opacity: 0;
+    }
+    20% {
+      opacity: 0.65;
+    }
+    100% {
+      transform: translateX(120%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes float-soft {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
   @keyframes fade-in {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -333,6 +388,60 @@
 
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .dot-grid-very-soft {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 26px 26px;
+  }
+
+  .aurora-blob {
+    filter: blur(56px);
+    will-change: transform, opacity;
+  }
+
+  .aurora-blob-a {
+    animation: aurora-shift 14s ease-in-out infinite;
+  }
+
+  .aurora-blob-b {
+    animation: aurora-shift-rev 16s ease-in-out infinite;
+  }
+
+  .float-soft {
+    animation: float-soft 3s ease-in-out infinite;
+  }
+
+  .float-soft-delayed {
+    animation: float-soft 3s ease-in-out infinite;
+    animation-delay: -1.5s;
+  }
+
+  .spin-slow {
+    animation: spin-slow 10s linear infinite;
+  }
+
+  .separator-gradient {
+    background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.65), transparent);
+  }
+
+  .btn-shimmer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-120%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    animation: shimmer 2.6s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   /* Stagger children animations */

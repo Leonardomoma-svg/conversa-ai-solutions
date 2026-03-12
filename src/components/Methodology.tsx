@@ -60,9 +60,10 @@ const Methodology = () => {
   const [expandedPhase, setExpandedPhase] = useState<number | null>(1);
 
   return (
-    <section className="section-padding relative overflow-hidden">
+    <section className="section-padding relative overflow-hidden bg-background">
       {/* Background decoration */}
-      <div className="absolute inset-0 pattern-grid opacity-50" />
+      <div className="absolute inset-0 pattern-grid opacity-35" />
+      <div className="absolute inset-0 opacity-[0.08] gradient-hero" />
       
       <div className="container mx-auto px-4 relative">
         {/* Section header */}
@@ -116,7 +117,7 @@ const Methodology = () => {
           {phases.map((phase) => (
             <div
               key={phase.id}
-              className={`bg-card rounded-2xl border transition-all duration-300 overflow-hidden ${
+              className={`glass rounded-2xl border transition-all duration-300 overflow-hidden ${
                 expandedPhase === phase.id
                   ? 'border-primary/30 shadow-lg'
                   : 'border-border hover:border-primary/20'
